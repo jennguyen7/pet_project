@@ -1,0 +1,30 @@
+<h3><%= @dog.name %></h3>
+
+<img src="<%= @dog.image_url %>">
+
+<p>Description: <%= @dog.description %></p>
+<p>Breed: <%= @dog.breed %></p>
+<p>Sex: <%= @dog.sex %></p>
+<p>Dog location: <%= @dog.postcode %></p>
+
+<form action="/comments" method="post">
+	<input type="hidden" name="dog_id" value="<%= @dog.id %>">
+	<textarea name="body" cols="30" rows="10"></textarea>
+	<button>post comment</button>
+</form>
+
+<% @comments.each do |comment| %>
+	<hr>
+	<p><%= comment.body %></p>
+	<div><%= comment.user.email %></div>
+<% end %>
+
+
+
+
+
+<%# @comments.each do |comment| %>
+<%#-	<hr> -%>
+<%#-	<p>-%><%#= comment.body %><%#-</p> -%>
+<%#-	<div><%#= User.find(comment.user_id).email %><%#-</div> -%>
+<%# end %>

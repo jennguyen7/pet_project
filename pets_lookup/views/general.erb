@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>General Information</h1>	
+
+
+<form action="/comments" method="post">
+	<input type="hidden" name="breed_id" value="<%= breed %>">
+	<textarea name="body" cols="30" rows="10"></textarea>
+	<button>post comment</button>
+</form>
+
+<% @breeds.each do |breed| %>
+
+	<p><%= breed %></p></a>
+	<% @comments.each do |comment| %>
+		<hr>
+		<p><%= comment.body %></p>
+		<div><%= comment.user.email %></div>
+	<% end %>
+
+<% end %>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World</title>
+  <link rel='stylesheet' href='/stylesheets/main.css'>
+</head>
+<body>
+	<% if request.path == '/' %>
+		<input type="hidden" name="">
+	<% else %>
+		<a href="/"><button>Home Page</button></a>	
+	<% end %>
+
+	
+<%#= session[:user_id] <%#= quick way of checking that there is a session %>
+
+	<%#= if session[:user_id] %>
+	<% if logged_in? %>
+	logged in as  <%= current_user.email %> <%#= this is crappy way: User.find(session[:user_id]).email  SEE main.rb%>
+	<form action="/session" method="post"> <%#= doesn't allow delete, fake it and use post%>
+		<input type="hidden" name="_method" value="delete"> <%#= _method is in the main.rb %>
+		<button>logout</button>
+	</form>
+	<% end %>
+<main>
+  <%= yield %>
+</main>
+</body>
+</html>

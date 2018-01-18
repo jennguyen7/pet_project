@@ -1,0 +1,18 @@
+<a href="/dogs/new">Find a New Home for Your Dog</a>
+
+<h1>Dogs for Adoption</h1>
+
+<% @dogs.each do |dog| %>
+	<p>
+		<a href="/dogs/<%= dog.id %>"><%= dog.name %></a>
+	</p>
+<% end %>
+
+
+<h3>Please Contribute Your Knowledge to Our Breed Database!</h3>
+
+<% @breeds.each do |breed| %>
+
+	<a href="/general"><p><%= breed %></p></a>
+
+<% end %>
