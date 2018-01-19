@@ -94,3 +94,11 @@ from (pry):17:in `__pry__'\
 	<input type="text" name="password">
 	<button>login</button>
 </form>
+
+
+
+
+ pg_dump -Fc --no-acl --no-owner -h localhost -U jen petfinder > db.dump
+
+ heroku pg:backups:restore 'https://github.com/jennguyen7/pet_project/raw/master/db.dump
+' DATABASE_URL

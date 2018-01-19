@@ -1,6 +1,6 @@
      
 require 'sinatra'
-#require 'sinatra/reloader'
+require 'sinatra/reloader'
 require 'pry'
 require 'petfinder'
 require_relative 'db_config'
@@ -53,11 +53,27 @@ get '/users' do
 	erb :users
 end
 
-get '/general' do
-	@breed = Breed.find(params[:id])
-	@comments = Comment.where(breed_id: @breed.id)
-	erb :general
+
+get '/breeds/:breed' do
+		if !session[:user_id]
+		redirect '/login'
+	end
+	petfinder = Petfinder::Client.new('24f44b534f10c2a471bf61e9fb2949b2', 'a3fc2fd17515a37eddf7e06066363071')
+	@breeds = petfinder.breeds('dog') #returns an array
+	
+	@breedname = Breed.find_by(breed: params[:breed]) #boolean, if true will return an object
+	@comments = Comment.where(breed: @breedname)
+	@breed = params[:breed]
+	if @breedname
+		erb :breeds
+	else
+		breedname = Breed.new
+		breedname.breed = params[:breed]
+		breedname.body = params[:body]
+	end
+	erb :breeds
 end
+
 
 post '/dogs' do
 	dog = Dog.new
@@ -81,14 +97,24 @@ end
 
 post '/comments' do
 	#return "hello!"
-	petfinder = Petfinder::Client.new('24f44b534f10c2a471bf61e9fb2949b2', 'a3fc2fd17515a37eddf7e06066363071')
-	@breeds = petfinder.breeds('dog') #returns an array
 	comment = Comment.new
 	comment.body = params[:body]
 	comment.dog_id = params[:dog_id]
 	comment.user_id = current_user.id
 	comment.save
 	redirect "/dogs/#{comment.dog_id}"
+end
+
+
+post '/commentsbreeds' do
+	#return "hello!"
+	@breed = params[:breed]
+	comment = Comment.new
+	comment.body = params[:body]
+	comment.breed = params[:breed]
+	comment.user_id = current_user.id
+	comment.save
+	redirect "/breeds/#{comment.breed}"
 end
 
 
